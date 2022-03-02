@@ -1,37 +1,15 @@
-# kit-bug-demo
+This repo reproduces a bug when adding a query result from postgresql to a session in a Kit web application. A successful login will add a result of a user query to the session state. When a login is attempted, the session state is logged. 
 
-Start a [REPL](#repls) in your editor or terminal of choice.
+To reproduce the problem, first create the postgresql database:
 
-Start the server with:
-
-```clojure
-(go)
+```
+psql postgres
+CREATE USER kbd WITH PASSWORD 'password';
+CREATE DATABASE kbd WITH OWNER kbd;
 ```
 
-The default API is available under http://localhost:3000/api
+Migrations should automatically create a user database and insert a user:
+Email:    `a@b.com`
+Password: `pass`
 
-System configuration is available under `resources/system.edn`.
-
-To reload changes:
-
-```clojure
-(reset)
-```
-
-## REPLs
-
-### Cursive
-
-Configure a [REPL following the Cursive documentation](https://cursive-ide.com/userguide/repl.html). Using the default "Run with IntelliJ project classpath" option will let you select an alias from the ["Clojure deps" aliases selection](https://cursive-ide.com/userguide/deps.html#refreshing-deps-dependencies).
-
-### CIDER
-
-Use the `cider` alias for CIDER nREPL support (run `clj -M:dev:cider`). See the [CIDER docs](https://docs.cider.mx/cider/basics/up_and_running.html) for more help.
-
-Note that this alias runs nREPL during development. To run nREPL in production (typically when the system starts), use the kit-nrepl library through the +nrepl profile as described in [the documentation](https://kit-clj.github.io/docs/profiles.html#profiles).
-
-### Command Line
-
-Run `clj -M:dev:nrepl` or `make repl`.
-
-Note that, just like with [CIDER](#cider), this alias runs nREPL during development. To run nREPL in production (typically when the system starts), use the kit-nrepl library through the +nrepl profile as described in [the documentation](https://kit-clj.github.io/docs/profiles.html#profiles).
+Logging in as the above user, and then making another login attempt, should show that the user was added to the session state. However here it will throw an exception.

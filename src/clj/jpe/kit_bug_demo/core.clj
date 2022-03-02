@@ -16,6 +16,7 @@
 
     ;; Routes
     [jpe.kit-bug-demo.web.routes.api]
+    [jpe.kit-bug-demo.web.routes.pages]
     )
   (:gen-class))
 

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <form action="/" method="POST">
+    {% csrf-field %}
+    <label for="email">Email:</label><br>
+    <input id="email" name="email"><br>
+    <label for="email">Password:</label><br>
+    <input id="password" name="password" type="password"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
