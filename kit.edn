@@ -1,0 +1,8 @@
+{:full-name "jpe/kit-bug-demo"
+ :ns-name   "jpe.kit-bug-demo"
+ :sanitized "jpe/kit_bug_demo"
+ :name      "kit-bug-demo"
+ :modules   {:root         "modules"
+             :repositories [{:url  "https://github.com/kit-clj/modules.git"
+                             :tag  "master"
+                             :name "kit-modules"}]}}
