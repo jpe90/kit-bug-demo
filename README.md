@@ -8,8 +8,9 @@ CREATE USER kbd WITH PASSWORD 'password';
 CREATE DATABASE kbd WITH OWNER kbd;
 ```
 
-Migrations should automatically create a user database and insert a user:
-Email:    `a@b.com`
-Password: `pass`
+Then login as user 
+email: `a@b.com` 
+pass: `pass`
+(created by an automatic migration)
 
 Logging in as the above user, and then making another login attempt, should show that the user was added to the session state. However here it will throw an exception.
