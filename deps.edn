@@ -24,6 +24,8 @@
            io.github.kit-clj/kit-sql-migratus {:mvn/version "1.0.0"}
            io.github.kit-clj/kit-selmer {:mvn/version "1.0.1"}
            io.github.kit-clj/kit-repl {:mvn/version "1.0.1"}
+
+           tick/tick {:mvn/version "0.5.0-RC5"}
            }
  :aliases {:build {:deps {io.github.clojure/tools.build {:git/sha "34727f7"
                                                          :git/tag "v0.7.5" :git/url "https://github.com/clojure/tools.build.git"}

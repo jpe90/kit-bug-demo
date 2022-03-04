@@ -9,6 +9,7 @@
     [integrant.core :as ig]
     [integrant.repl :refer [clear go halt prep init reset reset-all]]
     [integrant.repl.state :as state]
+    [jpe.kit-bug-demo.web.routes.pages :as pages]
     [kit.api :as kit]
   #_[lambdaisland.classpath.watch-deps :as watch-deps] ;; hot loading for deps
     [jpe.kit-bug-demo.core :refer [start-app]]))
@@ -19,6 +20,10 @@
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 
 (add-tap (bound-fn* clojure.pprint/pprint))
+
+(def query-fn (:db.sql/query-fn state/system))
+(comment
+  (pages/authenticate-user query-fn "a@b.com" "pass"))
 
 (defn dev-prep!
   []

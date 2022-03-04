@@ -1,4 +1,4 @@
-This repo reproduces a bug when adding a query result from postgresql to a session in a Kit web application. A successful login will add a result of a user query to the session state. When a login is attempted, the session state is logged. 
+This repo reproduces an issue occuring when adding a query result from postgresql to a session in a Kit web application. 
 
 To reproduce the problem, first create the postgresql database:
 
@@ -8,13 +8,4 @@ CREATE USER kbd WITH PASSWORD 'password';
 CREATE DATABASE kbd WITH OWNER kbd;
 ```
 
-Then login as user
-
-email: `a@b.com` 
-
-pass: `pass`
-
-(created by an automatic migration)
-
-
-Logging in as the above user, and then making another login attempt, should show that the user was added to the session state. However here it will throw an exception.
+Then start the app and navigate to localhost:3000. The homepage will try to lookup the user and add them to the session in [pages.clj](https://github.com/jpe90/kit-bug-demo/blob/master/src/clj/jpe/kit_bug_demo/web/routes/pages.clj), which currently throws an exception.

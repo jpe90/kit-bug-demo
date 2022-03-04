@@ -3,7 +3,8 @@
     [jpe.kit-bug-demo.web.middleware.core :as middleware]
     [integrant.core :as ig]
     [reitit.ring :as ring]
-    [reitit.swagger-ui :as swagger-ui]))
+    [reitit.swagger-ui :as swagger-ui]
+    [reitit.ring.middleware.dev :as dev]))
 
 (defmethod ig/init-key :handler/ring
   [_ {:keys [router api-path] :as opts}]
@@ -29,4 +30,4 @@
 
 (defmethod ig/init-key :router/core
   [_ {:keys [routes] :as opts}]
-  (ring/router ["" opts routes]))
+  (ring/router ["" opts routes] {:reitit.middleware/transform dev/print-request-diffs}))

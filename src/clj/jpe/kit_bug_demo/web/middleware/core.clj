@@ -1,13 +1,20 @@
 (ns jpe.kit-bug-demo.web.middleware.core
   (:require
-    [jpe.kit-bug-demo.env :as env]
-    [ring.middleware.defaults :as defaults]
-    [ring.middleware.session.cookie :as cookie] ))
+   [ring.middleware.session.cookie :as cookie]
+   [ring.middleware.session :as session]
+   [ring.middleware.cookies :as cookies]
+   [tick.core :as tick]))
 
 (defn wrap-base
-  [{:keys [metrics site-defaults-config cookie-session] :as opts}]
-  (fn [handler]
-    (cond-> ((:middleware env/defaults) handler opts)
-            true (defaults/wrap-defaults
-                   (assoc-in site-defaults-config [:session :store] (cookie/cookie-store cookie-session)))
-            )))
+  [{:keys [cookie-session-config]}]
+  (let [{:keys [cookie-secret cookie-name cookie-default-max-age]} cookie-session-config
+        cookie-store (cookie/cookie-store {:key     (.getBytes ^String cookie-secret)
+                                           :readers {'inst                 (fn [x]
+                                                                             (tick/inst x))
+                                                     'time/zoned-date-time #'tick/zoned-date-time}})]
+    (fn [handler]
+           (cond-> handler
+             true (session/wrap-session {:store        cookie-store
+                                         :cookie-name  cookie-name
+                                         :cookie-attrs {:max-age cookie-default-max-age}})
+             true (cookies/wrap-cookies)))))
